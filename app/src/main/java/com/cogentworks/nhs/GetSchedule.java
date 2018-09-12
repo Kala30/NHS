@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -30,23 +31,30 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
     protected String[] doInBackground(String... taskParams) {
 
         try {
-            String url = "https://northwoodhigh.iusd.org/today-event/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date());;
+            String url = "https://northwoodhigh.iusd.org/today-event/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            //String url = "https://northwoodhigh.iusd.org/today-event/2018-09-07";
             Document document = Jsoup.connect(url).get();
 
             Element content = document.selectFirst(".view-content");
-            Elements events = content.select("a");
+            Elements eventsContent = content.select("a");
 
-            ArrayList<String> strings = new ArrayList<>();
-            for (Element element : events) {
-                strings.add(element.text());
+            boolean noSchool = false;
+            boolean isOdd = false;
+            ArrayList<String> events = new ArrayList<>();
+            for (Element element : eventsContent) {
+                events.add(element.text());
+                if (element.text().toLowerCase().contains("even"))
+                    isOdd = false;
+                if (element.text().toLowerCase().contains("no school"))
+                    noSchool = true;
             }
 
-            DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy (EEEE)", Locale.US);
+            DateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.US);
             DateFormat timeFormat = new SimpleDateFormat("kmm", Locale.US);
             DateFormat weekFormat = new SimpleDateFormat("u", Locale.US);
             Date date = new Date();
             int currentTime = Integer.parseInt(timeFormat.format(date));
-            //int currentTime = 1200;
+            //int currentTime = 1000;
             int dayofWeek = Integer.parseInt(weekFormat.format(date));
             String strDate = dateFormat.format(date);
 
@@ -58,26 +66,42 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
                 schedule = Schedules.TUTORIAL;
             else if (dayofWeek == 3) // WED
                 schedule = Schedules.COLLABORATION;
+            else
+                noSchool = true;
 
             String time = null;
             for (int i = 0; i < schedule.size(); i++) {
                 Pair<String, Integer> period = schedule.get(i);
                 if (period.second > currentTime) {
-                    time = period.first + " in " + toInterval(period.second - currentTime);
+                    String periodStr = period.first;
+                    if (periodStr.contains("%")) {
+                        periodStr = periodStr.replace("%", "");
+                        if (!isOdd)
+                            periodStr = periodStr.substring(0, periodStr.length()-1) + (Integer.parseInt(periodStr.substring(periodStr.length()-1))+1);
+                    }
+                    time = periodStr + " in " + toInterval(period.second - currentTime);
                     break;
                 }
             }
 
-            String schedStr = "";
-            for (int i = 0; i < strings.size(); i++) {
-                String str = strings.get(i);
-                if (str.toLowerCase().contains("day") || str.toLowerCase().contains("schedule"))
-                schedStr += strings.get(i);
-                if (i != strings.size() - 1)
-                    schedStr += ", ";
+            String schedStr = null;
+            if (!noSchool) {
+                if (isOdd)
+                    schedStr = "ODD";
+                else
+                    schedStr = "EVEN";
             }
 
-            String[] result = {strDate, time, schedStr};
+            String special = null;
+            for (int i = 0; i < events.size(); i++) {
+                String str = events.get(i);
+                if (str.toLowerCase().contains("schedule") || str.toLowerCase().contains("no school")) {
+                    special = str;
+                    break;
+                }
+            }
+
+            String[] result = {strDate, time, schedStr, special};
 
             return result;
 
@@ -91,6 +115,8 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
     @Override
     protected void onPostExecute(String[] result) {
         if (result != null) {
+            Activity activity = (Activity) context;
+
             TextView time = ((Activity)context).findViewById(R.id.text_time);
             TextView date = ((Activity)context).findViewById(R.id.text_date);
 
@@ -100,8 +126,17 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
             } else
                 time.setText(result[0]);
 
-            TextView schedule = ((Activity)context).findViewById(R.id.text_schedule);
-            schedule.setText(result[2]);
+            if (result[2] != null) {
+                TextView schedule = activity.findViewById(R.id.text_schedule);
+                activity.findViewById(R.id.card_sched).setVisibility(View.VISIBLE);
+                schedule.setText(result[2]);
+            }
+
+            if (result[3] != null) {
+                TextView specialSched = ((Activity)context).findViewById(R.id.text_special);
+                specialSched.setVisibility(View.VISIBLE);
+                specialSched.setText(result[3]);
+            }
         }
     }
 

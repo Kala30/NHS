@@ -21,13 +21,14 @@
 
     <group android:id="@+id/group_students" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_newspaper"
-            android:title="The Howler"/>
-        <item
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_menu_videocam"
             android:title="NTV" />
+
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_newspaper"
+            android:title="The Howler"/>
     </group>
 
 </menu>

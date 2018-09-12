@@ -21,11 +21,13 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_sched"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp"
+                android:visibility="gone"
                 android:backgroundTint="@color/colorPrimary">
 
                 <TextView
@@ -38,6 +40,15 @@
                     android:textColor="#E8EAF6"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
             </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_special"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/text_time"
@@ -61,6 +72,13 @@
 
 
         <!-- NEWS -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="News"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:paddingLeft="16dp" />
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,15 +87,94 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/title_news"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="News"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="0dp"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/desc_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp" />
+
+                <Button
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="All news"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <!-- NTV -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NTV"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:paddingLeft="16dp" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_ntv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/title_ntv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="0dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/desc_ntv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp" />
+
+                <Button
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="More"
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -98,29 +195,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="The Howler"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <!-- NTV -->
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NTV"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textSize="18sp" />
 
