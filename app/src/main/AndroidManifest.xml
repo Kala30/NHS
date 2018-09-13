@@ -13,13 +13,24 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="Northwood High"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="Northwood High School"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".NewsActivity"
+            android:label="News"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".HowlerActivity"
+            android:label="The Howler"
+            android:parentActivityName=".MainActivity">
+
         </activity>
     </application>
 

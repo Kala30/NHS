@@ -1,6 +1,7 @@
 package com.cogentworks.nhs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,8 +43,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         new GetHome(this).execute();
+        new GetHowlerHome(this).execute();
     }
 
     @Override
@@ -83,16 +87,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_news) {
+            Intent intent = new Intent(this, NewsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_calendar) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_ntv) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_howler) {
+            Intent intent = new Intent(this, HowlerActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -121,4 +127,14 @@ public class MainActivity extends AppCompatActivity
             mHandler.postDelayed(mUpdateScheduleTask, 1000);
         }
     };
+
+    public void onStartNews(View view) {
+        Intent intent = new Intent(this, NewsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onStartHowler(View view) {
+        Intent intent = new Intent(this, HowlerActivity.class);
+        startActivity(intent);
+    }
 }

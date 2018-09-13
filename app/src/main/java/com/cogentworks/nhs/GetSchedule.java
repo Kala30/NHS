@@ -32,7 +32,7 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
 
         try {
             String url = "https://northwoodhigh.iusd.org/today-event/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            //String url = "https://northwoodhigh.iusd.org/today-event/2018-09-07";
+            //String url = "https://northwoodhigh.iusd.org/today-event/2018-09-13";
             Document document = Jsoup.connect(url).get();
 
             Element content = document.selectFirst(".view-content");
@@ -54,7 +54,7 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
             DateFormat weekFormat = new SimpleDateFormat("u", Locale.US);
             Date date = new Date();
             int currentTime = Integer.parseInt(timeFormat.format(date));
-            //int currentTime = 1000;
+            //int currentTime = 1200;
             int dayofWeek = Integer.parseInt(weekFormat.format(date));
             String strDate = dateFormat.format(date);
 

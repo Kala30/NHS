@@ -33,8 +33,8 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
 
             Element news = document.selectFirst(".view-news");
             result.newsImageUrl = news.select("img").attr("src");
-            result.newsTitle = news.select("h3").text();
-            result.newsDesc = news.select("p").text();
+            result.newsTitle = news.selectFirst("h3").text();
+            result.newsDesc = news.selectFirst("p").text();
 
             Element ntv = document.selectFirst(".group-wrapper");
             result.ntvImageUrl = ntv.select("img").attr("src");
