@@ -2,7 +2,10 @@ package com.cogentworks.nhs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.customtabs.CustomTabsIntent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,11 +38,13 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
             result.newsImageUrl = news.select("img").attr("src");
             result.newsTitle = news.selectFirst("h3").text();
             result.newsDesc = news.selectFirst("p").text();
+            result.newsUrl = "https://northwoodhigh.iusd.org" + news.selectFirst("a").attr("href");
 
             Element ntv = document.selectFirst(".group-wrapper");
             result.ntvImageUrl = ntv.select("img").attr("src");
             result.ntvTitle = ntv.select(".field-name-field-title").text();
             result.ntvDesc = ntv.select("p").text();
+            result.ntvUrl = ntv.selectFirst("a").attr("href");
 
 
             return result;
@@ -52,10 +57,10 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
     }
 
     @Override
-    protected void onPostExecute(HomeData result) {
+    protected void onPostExecute(final HomeData result) {
         if (result != null) {
 
-            Activity activity = (Activity) context;
+            final Activity activity = (Activity) context;
 
 
             ImageView newsImage = activity.findViewById(R.id.image_news);
@@ -67,6 +72,15 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
             newsTitle.setText(result.newsTitle);
             TextView newsDesc = activity.findViewById(R.id.desc_news);
             newsDesc.setText(result.newsDesc);
+            activity.findViewById(R.id.card_news).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(context, Uri.parse(result.newsUrl));
+                }
+            });
 
 
             ImageView ntvImage = activity.findViewById(R.id.image_ntv);
@@ -78,6 +92,15 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
             ntvTitle.setText(result.ntvTitle);
             TextView ntvDesc = activity.findViewById(R.id.desc_ntv);
             ntvDesc.setText(result.ntvDesc);
+            activity.findViewById(R.id.card_ntv).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(context, Uri.parse(result.ntvUrl));
+                }
+            });
 
         }
     }
@@ -86,9 +109,12 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
         public String newsImageUrl;
         public String newsTitle;
         public String newsDesc;
+        public String newsUrl;
 
         public String ntvImageUrl;
         public String ntvTitle;
         public String ntvDesc;
+        public String ntvUrl;
+        public String moreNtvUrl;
     }
 }

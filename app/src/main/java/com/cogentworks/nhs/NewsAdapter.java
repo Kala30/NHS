@@ -61,12 +61,15 @@ public class NewsAdapter extends ArrayAdapter<NewsItem> {
         convertView.setOnClickListener(onClick);
         button.setOnClickListener(onClick);
 
-
-        Glide.with(convertView)
-                .load(newsItem.imageUrl)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(image);
-
+        if (newsItem.imageUrl != null) {
+            image.setVisibility(View.VISIBLE);
+            Glide.with(convertView)
+                    .load(newsItem.imageUrl)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(image);
+        } else {
+            image.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

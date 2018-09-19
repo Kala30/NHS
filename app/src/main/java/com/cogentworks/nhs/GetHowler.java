@@ -35,6 +35,8 @@ public class GetHowler extends AsyncTask<String, Void, ArrayList<NewsItem>> {
             for (Element article : articles) {
                 NewsItem item = new NewsItem();
                 item.imageUrl = article.selectFirst("img").attr("src");
+                if (item.imageUrl.equals("http://thehowleronline.org/wp-content/themes/justwrite/images/no-thumbnail.png"))
+                    item.imageUrl = null;
                 item.title = article.selectFirst("h2").text();
                 item.desc = article.selectFirst("p").text() + "...";
                 item.url = article.selectFirst("a").attr("href");
