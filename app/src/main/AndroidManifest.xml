@@ -14,24 +14,28 @@
         <activity
             android:name=".MainActivity"
             android:label="Northwood High School"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NewsActivity"
             android:label="News"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"></activity>
 
-        </activity>
-        <activity android:name=".HowlerActivity"
+        <activity
+            android:name=".HowlerActivity"
             android:label="The Howler"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"></activity>
 
-        </activity>
+        <activity android:name=".NtvActivity"
+            android:label="NTV"
+            android:parentActivityName=".MainActivity"></activity>
+
     </application>
 
 </manifest>

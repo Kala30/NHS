@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         new GetHome(this).execute();
+        new GetNtvHome(this).execute();
         new GetHowlerHome(this).execute();
     }
 
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_calendar) {
 
         } else if (id == R.id.nav_ntv) {
-
+            Intent intent = new Intent(this, NtvActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_howler) {
             Intent intent = new Intent(this, HowlerActivity.class);
             startActivity(intent);
@@ -135,6 +137,11 @@ public class MainActivity extends AppCompatActivity
 
     public void onStartHowler(View view) {
         Intent intent = new Intent(this, HowlerActivity.class);
+        startActivity(intent);
+    }
+
+    public void onStartNtv(View view) {
+        Intent intent = new Intent(this, NtvActivity.class);
         startActivity(intent);
     }
 }

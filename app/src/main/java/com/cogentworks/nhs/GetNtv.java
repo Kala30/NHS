@@ -10,37 +10,42 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
-public class GetHowler extends AsyncTask<String, Void, ArrayList<NewsItem>> {
+public class GetNtv extends AsyncTask<String, Void, ArrayList<NewsItem>> {
 
     private Context context;
-    private HowlerActivity activity;
+    private NtvActivity activity;
 
-    public GetHowler(Context context) {
+    public GetNtv(Context context) {
         this.context = context;
-        this.activity = (HowlerActivity) context;
+        this.activity = (NtvActivity) context;
     }
 
     @Override
     protected ArrayList<NewsItem> doInBackground(String... taskParams) {
 
         try {
-            String url = "http://thehowleronline.org/";
+            DateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.US);
+            int year = Integer.parseInt(dateFormat.format(new Date()));
+
+            String url = "https://iusd.tv/channel/NTV%2B" + year + "-" + (year+1);
             Document document = Jsoup.connect(url).get();
 
-            Elements articles = document.select("article");
-
+            Elements videos = document.select(".galleryItem");
             ArrayList<NewsItem> results = new ArrayList<NewsItem>();
-            for (Element article : articles) {
+
+            for (Element video : videos) {
                 NewsItem item = new NewsItem();
-                item.imageUrl = article.selectFirst("img").attr("src");
-                if (item.imageUrl.equals("http://thehowleronline.org/wp-content/themes/justwrite/images/no-thumbnail.png"))
-                    item.imageUrl = null;
-                item.title = article.selectFirst("h2").text();
-                item.desc = article.selectFirst("p").text() + "...";
-                item.url = article.selectFirst("a").attr("href");
-                item.date = article.selectFirst("time").text();
+                item.imageUrl = video.select("img").attr("src");
+                item.title = video.selectFirst(".thumb_name_content").text();
+                item.desc = video.selectFirst(".duration").text();
+                item.date = video.selectFirst(".thumbTimeAdded").text();
+                item.url = "https://iusd.tv" + video.selectFirst("a").attr("href");
 
                 results.add(item);
             }

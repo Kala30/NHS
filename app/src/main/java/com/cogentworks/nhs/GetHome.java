@@ -40,11 +40,11 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
             result.newsDesc = news.selectFirst("p").text();
             result.newsUrl = "https://northwoodhigh.iusd.org" + news.selectFirst("a").attr("href");
 
-            Element ntv = document.selectFirst(".group-wrapper");
+            /*Element ntv = document.selectFirst(".group-wrapper");
             result.ntvImageUrl = ntv.select("img").attr("src");
             result.ntvTitle = ntv.select(".field-name-field-title").text();
             result.ntvDesc = ntv.select("p").text();
-            result.ntvUrl = ntv.selectFirst("a").attr("href");
+            result.ntvUrl = ntv.selectFirst("a").attr("href");*/
 
 
             return result;
@@ -83,7 +83,7 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
             });
 
 
-            ImageView ntvImage = activity.findViewById(R.id.image_ntv);
+            /*ImageView ntvImage = activity.findViewById(R.id.image_ntv);
             Glide.with(context)
                     .load(result.ntvImageUrl)
                     .transition(DrawableTransitionOptions.withCrossFade())
@@ -100,7 +100,7 @@ public class GetHome extends AsyncTask<String, Void, GetHome.HomeData> {
                     CustomTabsIntent customTabsIntent = builder.build();
                     customTabsIntent.launchUrl(context, Uri.parse(result.ntvUrl));
                 }
-            });
+            });*/
 
         }
     }

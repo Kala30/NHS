@@ -30,7 +30,7 @@ public class GetHowlerHome extends AsyncTask<String, Void, NewsItem> {
     protected NewsItem doInBackground(String... taskParams) {
 
         try {
-            String url = "http://thehowleronline.org/category/print/";
+            String url = "http://thehowleronline.org/";
             Document document = Jsoup.connect(url).get();
             NewsItem result = new NewsItem();
 
