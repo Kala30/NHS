@@ -3,6 +3,7 @@ package com.cogentworks.nhs;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -31,7 +32,9 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
     protected String[] doInBackground(String... taskParams) {
 
         try {
-            String url = "https://northwoodhigh.iusd.org/today-event/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String urlDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String url = "https://northwoodhigh.iusd.org/today-event/" + urlDate;
+            Log.d("GetSchedule", urlDate);
             //String url = "https://northwoodhigh.iusd.org/today-event/2018-09-13";
             Document document = Jsoup.connect(url).get();
 
@@ -39,10 +42,11 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
             Elements eventsContent = content.select("a");
 
             boolean noSchool = false;
-            boolean isOdd = false;
+            boolean isOdd = true;
             ArrayList<String> events = new ArrayList<>();
             for (Element element : eventsContent) {
                 events.add(element.text());
+                Log.d("GetSchedule", element.text());
                 if (element.text().toLowerCase().contains("even"))
                     isOdd = false;
                 if (element.text().toLowerCase().contains("no school"))
@@ -54,7 +58,7 @@ public class GetSchedule extends AsyncTask<String, Void, String[]> {
             DateFormat weekFormat = new SimpleDateFormat("u", Locale.US);
             Date date = new Date();
             int currentTime = Integer.parseInt(timeFormat.format(date));
-            //int currentTime = 1200;
+            //int currentTime = 1000;
             int dayofWeek = Integer.parseInt(weekFormat.format(date));
             String strDate = dateFormat.format(date);
 

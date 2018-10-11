@@ -1,6 +1,8 @@
 package com.cogentworks.nhs;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
@@ -14,6 +16,12 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean useDarkTheme = sharedPrefs.getBoolean(MainActivity.PREF_DARK_THEME, false);
+        if (useDarkTheme)
+            setTheme(R.style.AppDarkTheme);
+
         setContentView(R.layout.activity_news);
 
         mListView = findViewById(R.id.list);

@@ -19,16 +19,22 @@
             android:title="Calendar" />
     </group>
 
-    <group android:id="@+id/group_students" android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_ntv"
-            android:icon="@drawable/ic_menu_videocam"
-            android:title="NTV" />
+    <item android:title="Students">
 
-        <item
-            android:id="@+id/nav_howler"
-            android:icon="@drawable/ic_menu_newspaper"
-            android:title="The Howler"/>
-    </group>
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_ntv"
+                    android:icon="@drawable/ic_menu_videocam"
+                    android:title="NTV" />
+
+                <item
+                    android:id="@+id/nav_howler"
+                    android:icon="@drawable/ic_menu_newspaper"
+                    android:title="The Howler" />
+            </group>
+        </menu>
+
+    </item>
 
 </menu>

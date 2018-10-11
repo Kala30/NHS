@@ -2,8 +2,10 @@ package com.cogentworks.nhs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,9 +21,17 @@ public class MainActivity extends AppCompatActivity
 
     private Context mContext = this;
 
+    public final static String PREF_DARK_THEME = "dark_theme";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean useDarkTheme = sharedPrefs.getBoolean(PREF_DARK_THEME, false);
+        if (useDarkTheme)
+            setTheme(R.style.AppDarkTheme_NoActionBar);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,6 +44,11 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });*/
+        if (!useDarkTheme)
+            toolbar.setPopupTheme(R.style.AppTheme);
+        else
+            toolbar.setPopupTheme(R.style.AppDarkTheme);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -68,6 +83,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem checkable = menu.findItem(R.id.dark_check);
+        boolean isDark = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                .getBoolean(PREF_DARK_THEME, false);
+        checkable.setChecked(isDark);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -77,12 +102,25 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.dark_check) {
+            boolean isChecked = !item.isChecked();
+            item.setChecked(isChecked);
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(PREF_DARK_THEME, isChecked);
+            editor.commit();
+
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -94,7 +132,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, NewsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_calendar) {
-
+            Intent intent = new Intent(this, CalendarActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_ntv) {
             Intent intent = new Intent(this, NtvActivity.class);
             startActivity(intent);
@@ -126,7 +165,7 @@ public class MainActivity extends AppCompatActivity
     private Runnable mUpdateScheduleTask = new Runnable() {
         public void run() {
             new GetSchedule(mContext).execute();
-            mHandler.postDelayed(mUpdateScheduleTask, 1000);
+            mHandler.postDelayed(mUpdateScheduleTask, 1000 * 60);
         }
     };
 
